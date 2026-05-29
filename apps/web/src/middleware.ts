@@ -59,7 +59,7 @@ export async function middleware(request: NextRequest) {
           binaryDer = Buffer.from(cleaned, 'base64');
         }
       } catch {}
-      const publicKey = await crypto.subtle.importKey('spki', binaryDer, { name: 'RSASSA-PKCS1-v1_5', hash: 'SHA-256' }, true, ['verify']);
+      const publicKey = await crypto.subtle.importKey('spki', new Uint8Array(binaryDer), { name: 'RSASSA-PKCS1-v1_5', hash: 'SHA-256' }, true, ['verify']);
       await jwtVerify(token, publicKey, { issuer: 'zecpass', algorithms: ['RS256'] });
       return NextResponse.next();
     } catch {

@@ -33,10 +33,11 @@ function parseKeyEnv(envValue: string): Buffer {
  */
 async function getPrivateKey(): Promise<CryptoKey> {
   const binaryDer = parseKeyEnv(config.jwtSecret());
+  const keyData = new Uint8Array(binaryDer);
 
   return crypto.subtle.importKey(
     'pkcs8',
-    binaryDer,
+    keyData,
     { name: 'RSASSA-PKCS1-v1_5', hash: 'SHA-256' },
     false,
     ['sign']
@@ -45,10 +46,11 @@ async function getPrivateKey(): Promise<CryptoKey> {
 
 async function getPublicKey(): Promise<CryptoKey> {
   const binaryDer = parseKeyEnv(config.jwtPublicKey());
+  const keyData = new Uint8Array(binaryDer);
 
   return crypto.subtle.importKey(
     'spki',
-    binaryDer,
+    keyData,
     { name: 'RSASSA-PKCS1-v1_5', hash: 'SHA-256' },
     true,
     ['verify']
