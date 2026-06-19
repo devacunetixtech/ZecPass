@@ -54,6 +54,14 @@ zecpass/
 3. **ZecPass verifies** → Checks format, nonce, timing, replay protection
 4. **App receives JWT** → Contains `zk_proof_hash = SHA256(challenge:tx:nonce:app)` — never the address
 
+## 🪙 Zcash Mainnet Integration
+
+ZecPass interacts directly with the **Zcash Mainnet** to securely verify authentication attempts in a decentralized manner:
+1. **Lightweight Node**: The `zingolib-service` runs a Zingo CLI daemon synchronized to the Zcash Mainnet.
+2. **On-Chain Authentication**: Users authenticate by sending a minimal transaction (e.g., `0.0001 ZEC`) on the Mainnet to the ZecPass shielded receiver address, embedding their challenge in the encrypted memo field.
+3. **Real-time Decryption**: The backend polls Mainnet blocks via `zingolib` and decrypts incoming memos in real-time.
+4. **Zero-Knowledge Finality**: Memos matching the expected cryptographic challenge confirm identity ownership without exposing the user's spending habits or actual address to the third-party app.
+
 ## 🧩 SDK Usage
 
 ### React
